@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <title>KATA Friends | Amazon A+ モバイルプレビュー</title>
+  <style>
+    :root { --amazon-navy: #131921; --amazon-orange: #ff9900; --page: #eaeded; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--page); color: #0f1111; font-family: Arial, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif; }
+    .mobile-shell { width: 100%; max-width: 600px; min-height: 100vh; margin: 0 auto; background: #fff; box-shadow: 0 0 24px rgba(15,17,17,.16); }
+    .amazon-bar { height: 51px; display: flex; align-items: center; gap: 12px; padding: 0 14px; color: #fff; background: var(--amazon-navy); }
+    .logo { font-size: 24px; font-weight: 700; letter-spacing: -.8px; line-height: 1; }.logo span { color: var(--amazon-orange); font-size: 12px; vertical-align: top; margin-left: 1px; }
+    .search { flex: 1; height: 34px; border-radius: 4px; background: #fff; }.menu { font-size: 25px; line-height: 1; }.delivery { padding: 8px 16px; font-size: 12px; color: #fff; background: #232f3e; }
+    .product { padding: 15px 16px 13px; border-bottom: 8px solid var(--page); }.brand { color: #007185; font-size: 13px; margin-bottom: 5px; }.title { margin: 0; font-size: 16px; line-height: 1.35; font-weight: 400; }.a-plus-label { padding: 14px 16px; border-bottom: 1px solid #d5dbdb; font-size: 18px; font-weight: 700; }
+    .carousel { overflow: hidden; background: #fff; border-bottom: 8px solid var(--page); }.slides { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none; scroll-behavior: smooth; }.slides::-webkit-scrollbar { display: none; }.slide { flex: 0 0 100%; width: 100%; scroll-snap-align: start; font-size: 0; line-height: 0; }.slide img { display: block; width: 100%; height: auto; }
+    .pagination { display: flex; justify-content: center; align-items: center; gap: 7px; min-height: 33px; padding: 9px 12px; background: #fff; }.pagination button { width: 9px; height: 9px; padding: 0; border: 1px solid #879596; border-radius: 50%; background: #fff; cursor: pointer; }.pagination button[aria-selected="true"] { border-color: #e47911; background: var(--amazon-orange); }.footer { padding: 20px 16px 30px; color: #565959; background: #fff; font-size: 12px; text-align: center; }
+    @media (min-width: 601px) { body { padding: 20px 0; }.mobile-shell { border-radius: 8px; overflow: hidden; } }
+  </style>
+</head>
+<body>
+  <main class="mobile-shell" aria-label="Amazon mobile A+ preview">
+    <header><div class="amazon-bar"><span class="menu">☰</span><span class="logo">amazon<span>.co.jp</span></span><span class="search" aria-hidden="true"></span></div><div class="delivery">📍 お届け先を選択</div></header>
+    <section class="product" aria-label="商品情報のプレビュー"><div class="brand">KATA Friends</div><h1 class="title">KATA Friends</h1></section>
+    <section aria-label="商品説明"><div class="a-plus-label">商品説明</div><div id="a-plus-content"></div></section><footer class="footer">Amazon モバイル表示用プレビュー</footer>
+  </main>
+  <script>
+    const groups = [
+      ['KATA Friends_JP_Amazon A+_M_600x450_1_1@1x.png','KATA Friends_JP_Amazon A+_M_600x450_1_2@1x.png','KATA Friends_JP_Amazon A+_M_600x450_1_3@1x.png','KATA Friends_JP_Amazon A+_M_600x450_1_4@1x.png','KATA Friends_JP_Amazon A+_M_600x450_1_5@1x.png'],
+      ['KATA Friends_JP_Amazon A+_M_600x450_2_1@1x.png','KATA Friends_JP_Amazon A+_M_600x450_2_2@1x.png','KATA Friends_JP_Amazon A+_M_600x450_2_3@1x.png','KATA Friends_JP_Amazon A+_M_600x450_2_4@1x.png'],
+      ['KATA Friends_JP_Amazon A+_M_600x450_3_1@1x.png','KATA Friends_JP_Amazon A+_M_600x450_3_2@1x.png','KATA Friends_JP_Amazon A+_M_600x450_3_3@1x.png','KATA Friends_JP_Amazon A+_M_600x450_3_4@1x.png'],
+      ['KATA Friends_JP_Amazon A+_M_600x450_4_1@1x.png','KATA Friends_JP_Amazon A+_M_600x450_4_2@1x.png','KATA Friends_JP_Amazon A+_M_600x450_4_3@1x.png','KATA Friends_JP_Amazon A+_M_600x450_4_4@1x.png','KATA Friends_JP_Amazon A+_M_600x450_4_5@1x.png']
+    ];
+    const content = document.querySelector('#a-plus-content');
+    groups.forEach((files, groupIndex) => {
+      const carousel = document.createElement('div'); carousel.className = 'carousel'; carousel.setAttribute('aria-label', `A+ carousel ${groupIndex + 1}`);
+      const slides = document.createElement('div'); slides.className = 'slides'; const pagination = document.createElement('div'); pagination.className = 'pagination'; pagination.setAttribute('role', 'tablist'); pagination.setAttribute('aria-label', `Carousel ${groupIndex + 1} pagination`);
+      const update = () => { const current = Math.round(slides.scrollLeft / slides.clientWidth); pagination.querySelectorAll('button').forEach((dot, i) => dot.setAttribute('aria-selected', String(i === current))); };
+      files.forEach((file, index) => { const slide = document.createElement('div'); slide.className = 'slide'; const image = document.createElement('img'); image.src = file; image.alt = `KATA Friends A+ carousel ${groupIndex + 1}, image ${index + 1}`; image.loading = groupIndex === 0 && index === 0 ? 'eager' : 'lazy'; slide.append(image); slides.append(slide); const dot = document.createElement('button'); dot.type = 'button'; dot.setAttribute('aria-label', `Show image ${index + 1}`); dot.setAttribute('aria-selected', String(index === 0)); dot.addEventListener('click', () => slides.scrollTo({ left: slides.clientWidth * index, behavior: 'smooth' })); pagination.append(dot); });
+      slides.addEventListener('scroll', () => requestAnimationFrame(update), { passive: true }); carousel.append(slides, pagination); content.append(carousel); update();
+    });
+  </script>
+</body>
+</html>
